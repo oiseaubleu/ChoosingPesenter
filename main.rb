@@ -12,6 +12,11 @@ end
 members = []
 members = [Member.new("川満"),
             Member.new("笹川"),
+            Member.new("重光"),
+            Member.new("中澤"),
+            Member.new("龍川"),
+            Member.new("篠崎"),
+            Member.new("岡本")
  ]
  puts members[0].name #川満さんだけが取れる #[{name:xx},{{name:xx}}]
 
@@ -26,21 +31,64 @@ end
 #ループに入るまでの処理
 puts "除外するメンバーがいますか？　y/n"
 answer = gets.chomp
-puts answer
+# puts answer
 
 #除外するメンバーの番号をもらって、除外されるメンバー以外の新しい配列を返す処理
 if answer=="y"
  puts "除外するメンバーの番号を選んでください"
- member_numbers = gets.chomp.to_i
+ member_numbers = gets.chomp.split #できあがりは文字列の配列["1", "2"]
 #[{name:xx},{{name:xx}}]
 
-new_meber_list =[]
+new_member_list =[] #残ったメンバーの新しい配列(文字列)。
+new_member_numbers = [] #整数になった新しい配列
 
-members.each do |member|
-  member != member_numbers 
+member_numbers.each do |list|
+  new_member_numbers << list.to_i 
 end
-members.map(member=>member.name=member_numbers)
+puts "これは#{new_member_numbers}" #数字だけが入った配列が出力
+
+
+  # puts "#{s.name} at index #{i}" #sは名前が入っていく。iはindexが入る。
+  new_member_numbers.each do |number|
+      members.each_with_index do |s,i|
+      if number != i
+         new_member_list << s.name
+      end
+  end
 end
+
+puts new_member_list
+
+#ランダム処理のメソッド
+
+def random(num)
+   rand(num)
+end
+random_number = random(new_member_list.length) #ランダム処理後の数字を変数に代入
+
+touban = new_member_list[random_number]
+puts touban
+
+end
+
+# members.each_with_index do |s,i|
+#   # puts "#{s.name} at index #{i}" #sは名前が入っていく。iはindexが入る。
+#   if member_numbers != i
+#     new_meber_list << s.name
+#   end
+# end
+
+
+
+
+
+
+
+# members.each do |member|
+#   member != member_numbers
+# end
+# members.map(member=>member.name=member_numbers)
+# end
 
 
 
