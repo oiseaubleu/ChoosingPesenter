@@ -18,15 +18,21 @@ members = [Member.new("川満"),  #0番目の場合、
             Member.new("篠崎"),
             Member.new("岡本")
  ]
- puts members[0].name #川満さんだけが取れる #[{name:xx},{{name:xx}}]
+#  puts members[0].name #川満さんだけが取れる #[{name:xx},{{name:xx}}]
 
+ 
 # メンバーリストを表示する。（Rubyのオブジェクト用メソッドをあえて使用していない）
-puts "------メンバーリスト------"
-i = 0
-while members[i] != nil do
-  puts "#{i}: #{members[i].name}"
-  i += 1
+def display_member_list(list)#listに入るのはlist_choiceで選んだリスト
+  puts "------メンバーリスト------"
+  i = 0
+  while list[i] != nil do
+    puts "#{i}: #{list[i].name}"
+    i += 1
+  end
 end
+#1.最初の表示####################################
+display_member_list(members)
+
 
 new_member_list ||= [] #残ったメンバーの新しい配列(文字列)。
 
@@ -40,17 +46,22 @@ def  list_choice(members,new_members)
     end
   end
 
-  
+#ランダム処理のメソッド
+def randomNum (num)
+  rand(num)
+end
 
-
-#ループに入るまでの処理 ここからループ開始
+#2.除外メンバー有無の選択####################################
+  #ループに入るまでの処理 ここからループ開始
 while true
-    puts "除外するメンバーがいますか？　y/n"
+    puts "除外するメンバーがいますか？　y/n" 
     answer = gets.chomp
     # puts answer
 
     #除外するメンバーの番号をもらって、除外されるメンバー以外の新しい配列を返す処理
-    binding.irb
+    #binding.irb
+#３.除外メンバーありの処理####################################
+  #メンバーの番号もらう→新しいメンバーの配列をつくる⇒新しいメンバーリストの表示をする⇒２．の処理に戻る
     if answer=="y"
       puts "除外するメンバーの番号を選んでください"
       member_numbers = gets.chomp.to_i #できあがりは文字列の配列["1", "2"]→1つの整数が返ってくる
@@ -67,31 +78,38 @@ while true
 
         # puts "#{s.name} at index #{i}" #sは名前が入っていく。iはindexが入る。指定の人だけ除外したい。例：new_member_numbersには配列[0,2],ABC 0,2 0だけ
         #new_member_numbers.each do |number|  
-      binding.irb
+      #binding.irb
       using_list = list_choice(members,new_member_list)
-          
+      sec_new_member_list=[]
       using_list.each_with_index do |s,i| 
         if member_numbers != i
-            new_member_list << s
+          #binding.irb
+            sec_new_member_list << s
         end
+        
       end
+      new_member_list = sec_new_member_list
+      list = list_choice(members,new_member_list)
+      display_member_list(list)
+#３.除外メンバーなしの処理####################################
     else
-      binding.irb
+      #binding.irb
+      list = list_choice(members,new_member_list)
+      display_member_list(list)
+      random_number = randomNum(list.length) #ランダム処理後の数字を変数に代入
+      touban = list[random_number].name
+      puts "当番の人は#{touban}さんです！！"
       break
+
     end
 end
- puts new_member_list
+# answer = []
+# new_member_list.each do |memberinst|
+# answer << memberinst.name 
+# end
+# puts answer
 
 
-#ランダム処理のメソッド
-
-def random(num)
-   rand(num)
-end
-random_number = random(new_member_list.length) #ランダム処理後の数字を変数に代入
-
-touban = new_member_list[random_number]
-puts touban
 
 #end
 
